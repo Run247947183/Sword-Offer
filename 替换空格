@@ -1,0 +1,40 @@
+// 方法一：利用 StringBuilder 来解决
+public class Solution {
+    public String replaceSpace(StringBuffer str) {
+    	if (str == null) {
+            return str.toString();
+        }
+        String res = str.toString();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < res.length(); i++) {
+            if (res.charAt(i) == ' ') {
+                sb.append("%20");
+                continue;
+            }
+            sb.append(res.charAt(i));
+        }
+        return sb.toString();
+    }
+}
+
+// 方法二：直接在原字符串上进行替换
+public class Solution {
+    public String replaceSpace(StringBuffer str) {
+    	if (str == null) {
+            return str.toString();
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == ' ') {
+                str.replace(i, i + 1, "%20");
+            }
+        }
+        return str.toString();
+    }
+}
+
+// 方法三：调用自带的函数
+public class Solution {
+  public String repalceSpace(StringBuffer str) {
+    return str.toString().repalce(" ", "%20");
+    }
+ }
