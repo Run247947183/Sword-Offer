@@ -1,0 +1,42 @@
+// 方法一：利用 ArrayList 的 add(int index, E element) ,可以每次将节点的值加到链表 0 的位置
+/**
+*    public class ListNode {
+*        int val;
+*        ListNode next = null;
+*
+*        ListNode(int val) {
+*            this.val = val;
+*        }
+*    }
+*
+*/
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        for (ListNode cur = listNode; 
+                cur != null; cur = cur.next) {
+            list.add(0, cur.val);
+        }
+        return list;
+    }
+}
+
+// 方法二：因为是从尾到头来打印链表，所以我们可以利用 Stack 栈来解决
+import java.util.ArrayList;
+import java.util.Stack;
+public class Solution {
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> list = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+        for (ListNode cur = listNode;
+                cur != null; cur = cur.next) {
+            stack.push(cur.val);
+        }
+        while (!stack.isEmpty()) {
+            list.add(stack.pop());
+        }
+        return list;
+    }
+}
