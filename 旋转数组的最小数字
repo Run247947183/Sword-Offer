@@ -1,0 +1,11 @@
+// 方法一：利用 Arrays.sort()
+import java.util.ArrayList;
+import java.util.*;
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+        Arrays.sort(array);
+        return array[0];
+    }
+}
+
+// 方法二：
