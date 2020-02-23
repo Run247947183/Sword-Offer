@@ -1,4 +1,4 @@
-
+// 方法一
 import java.util.Stack;
 public class Solution {
     Stack<Integer> stack1 = new Stack<Integer>();
@@ -15,5 +15,38 @@ public class Solution {
             }
         }
         return stack2.pop();
+    }
+}
+
+// 方法二：
+import java.util.Stack;
+
+public class Solution {
+    // stack1 用来表示队列的输出顺序，也就是先进先出
+    Stack<Integer> stack1 = new Stack<Integer>();
+    // stack2 用来在 push 操作时辅助 stack1 ，让输出的顺序和队列一样
+    Stack<Integer> stack2 = new Stack<Integer>();
+    
+    public void push(int node) {
+        // 如果两个栈都为空，说明是第一次插入元素，直接插入 stack1
+        if (stack1.isEmpty() && stack2.isEmpty()) {
+            stack1.push(node);
+        } else {
+            // 先将 stack1 的元素放到 stack2 中
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+            // 添加新来的元素到 stack2 中
+            stack2.push(node);
+            // 最后将 stack2 中的元素导回 stack1 中
+            while (!stack2.isEmpty()) {
+                stack1.push(stack2.pop());
+            }
+        }
+    }
+    
+    public int pop() {
+        // 因为 stack1 输出的顺序就和队列相同，所以直接输出
+        return stack1.pop();
     }
 }
