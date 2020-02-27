@@ -1,0 +1,29 @@
+方法一：
+public class Solution {
+    public int JumpFloorII(int target) {
+        if (target == 0) {
+            return 0;
+        }
+        int[] num = new int[target];
+        num[0] = 1;
+        int sum = 1;
+        for (int i = 1; i < target; i++) {
+            num[i] = sum + 1;
+            sum += num[i];
+        }
+        return num[target - 1];
+    }
+}
+
+方法二：
+
+public class Solution {//规律是f(n) = f(n-1)
+    public int JumpFloorII(int target) {
+        int sum = 1;
+        if(target == 0)
+            return 0;
+        for(int i = 1;i < target; i++)
+            sum = 2* sum;
+        return sum;
+    }
+}
