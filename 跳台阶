@@ -1,4 +1,4 @@
-
+方法一：类似与斐波那契数列
 public class Solution {
     public int JumpFloor(int target) {
         if(target <= 2){
@@ -11,5 +11,15 @@ public class Solution {
             pre1 = cur;
         }
         return pre1;
+    }
+}
+
+// 方法二：递归
+public class Solution {
+    public int JumpFloor(int target) {
+        if (target < 2) {
+            return 1;
+        }
+        return JumpFloor(target - 1) + JumpFloor(target - 2);
     }
 }
