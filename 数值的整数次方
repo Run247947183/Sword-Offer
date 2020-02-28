@@ -29,3 +29,28 @@ public class Solution {
         return Math.pow(base, exponent);
   }
 }
+
+方法三：递归，二分法
+public class Solution {
+    public double Power(double base, int exponent) {
+        boolean tag = false;
+        if (exponent < 0.0) {
+            tag = true;
+            exponent = Math.abs(exponent);
+        }
+        if (tag) {
+            return 1 / Helper(base, exponent);
+        }
+        return Helper(base, exponent);
+      }
+    public double Helper(double base, int exponent) {
+        if (exponent == 0.0) {
+            return 1;
+        }
+        if (exponent == 1.0) {
+            return base;
+        }
+        double sum = Helper(base, (exponent / 2));
+        return exponent % 2 == 0 ? sum * sum : base * sum * sum;
+    }
+}
