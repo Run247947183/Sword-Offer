@@ -1,19 +1,31 @@
-
-
+方法一：
 public class Solution {
     public double Power(double base, int exponent) {
-        if (base == 0.0){
+        if (base == 0.0) {
             return 0.0;
         }
-        // 前置结果设为1.0，即当exponent=0 的时候，就是这个结果
-        double result = 1.0d;
-        // 获取指数的绝对值
-        int e = exponent > 0 ? exponent : -exponent;
-        // 根据指数大小，循环累乘
-        for(int i = 1 ; i <= e; i ++){
-            result *= base;
+        if (exponent == 0) {
+            return 1.0;
         }
-        // 根据指数正负，返回结果
-        return exponent > 0 ? result : 1 / result;
+        double sum = base;
+        boolean tag = false;
+        if (exponent < 0) {
+            exponent = Math.abs(exponent);
+            tag = true;
+        }
+        for (int i = 0; i < exponent - 1; i++) {
+            sum = sum * base;
+        }
+        if (tag) {
+            sum = 1 / sum;
+        }
+        return sum;
+    }
+}
+
+方法二：库函数
+public class Solution {
+    public double Power(double base, int exponent) {
+        return Math.pow(base, exponent);
   }
 }
