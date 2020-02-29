@@ -1,0 +1,48 @@
+public class Solution {
+    public void reOrderArray(int [] array) {
+        if (array.length == 0 || array.length == 1) {
+            return;
+        }
+        int i = 0;
+        int pos = -1; // pos 用来记录第一次出现的偶数
+        while (i < array.length && pos < array.length) {
+            if (array[i] % 2 != 0) {
+                // 表示现在出现的是奇数，那么继续往前遍历
+                i++;
+                continue;
+            } else {
+                // 现在是出现偶数的情况
+                if (pos == -1) {
+                    // pos 记录第一个出现的偶数位置，这个if语句就执行一次
+                    // 后面每次进行更新pos下标都是在下面操作
+                    pos = i;
+                }
+                // 从偶数下标开始，寻找第一个奇数的下标
+                // 因为我们要进行奇数和偶数的交换
+                while (i < array.length) {
+                    if (array[i] % 2 != 0) {
+                        break;
+                    }
+                    i++;
+                }
+                // 注意：这里需要判断以下，否则 array[i] 会出现数组下标越界的情况
+                if (i == array.length) {
+                    break;
+                }
+                // 把出现奇数的值记录下来，方便后面交换
+                int tmp2 = array[i];
+                // 因为需要保持奇数和奇数，偶数和偶数的相对位置不变
+                // 所以要把偶数到奇数的中间的偶数都进行后移一位操作，这样把奇数也覆盖
+                for (int j = i; j > pos; j--) {
+                    array[j] = array[j - 1];
+                }
+                // 接着就是把奇数交换到第一次出现偶数的位置
+                array[pos] = tmp2;
+                // 注意这里很重要，因为pos始终都是记录的排列在第一位偶数的位置
+                // 所以此时交换完了之后，这个偶数的位置就在奇数位置的后一位，所以进行++操作
+                // 以后每次交换都是将奇数和pos位置的偶数交换，这样就能保证相对位置不变
+                pos++;
+            }
+        }
+    }
+}
