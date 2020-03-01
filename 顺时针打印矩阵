@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) {
+            return list;
+        }
+        int oldRight = matrix[0].length - 1; // 表示原本二维位维数组的长度
+        int left = 0; 
+        int oldDown = matrix.length - 1; // 表示原本一位数组的长度
+        int up = 0; 
+        while (true) {
+            for (int col = left; col <= oldRight; col++) {
+                list.add(matrix[up][col]);
+            }
+            up++;
+            if (up > oldDown) {
+                break;
+            }
+            for (int row = up; row <= oldDown; row++) {
+                list.add(matrix[row][oldRight]);
+            }
+            oldRight--;
+            if (oldRight < left) {
+                break;
+            }
+            for (int col = oldRight; col >= left; col--) {
+                list.add(matrix[oldDown][col]);
+            }
+            oldDown--;
+            if (oldDown < up) {
+                break;
+            }
+            for (int row = oldDown; row >= up; row--) {
+                list.add(matrix[row][left]);
+            }
+            left++;
+            if (left > oldRight) {
+                break;
+            }
+        }
+        return list;
+    }
+}
