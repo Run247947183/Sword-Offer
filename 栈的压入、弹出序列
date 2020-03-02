@@ -1,0 +1,21 @@
+用栈来辅助完成判断
+因为入栈和出栈的两个数组长度一定相同
+所以到最后循环完，栈内如果还存在元素，那么说明存在入栈和出栈元素顺序不同，所以返回 false
+
+import java.util.ArrayList;
+import java.util.*;
+
+public class Solution {
+    public boolean IsPopOrder(int [] pushA,int [] popA) {
+        Stack<Integer> stack = new Stack<>();
+        int j = 0;
+        for (int i = 0; i < pushA.length; i++) {
+            stack.push(pushA[i]);
+            while (!stack.isEmpty() && stack.peek() == popA[j]) {
+                stack.pop();
+                j++;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
