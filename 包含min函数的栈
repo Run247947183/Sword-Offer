@@ -1,0 +1,50 @@
+利用两个栈来实现功能
+一个栈保存全部的元素
+另一个栈用来储存每次加元素之后的最小值
+例如，加入的元素顺序为：3，5，1，4
+那么第二个栈保存的元素就为：3，3，1，1
+
+
+import java.util.Stack;
+
+public class Solution {
+
+    private static Stack<Integer> stack1 = new Stack<>(); // 储存全部的元素
+    private static Stack<Integer> stack2 = new Stack<>(); // 保存当前元素下的最小值
+    private static Integer minNum = Integer.MAX_VALUE; // 保存最小值
+    
+    public void push(int node) {
+        if (stack1.isEmpty()) {
+            minNum = node;
+            stack1.push(node);
+            stack2.push(minNum);
+        } else {
+            minNum = node < minNum ? node : minNum;
+            stack1.push(node);
+            stack2.push(minNum);
+        }
+    }
+    
+    public void pop() {
+        if (stack1.size() < 1) {
+            return;
+        }
+        if (stack1.size() == 1) {
+            stack1.pop();
+            stack2.pop();
+            minNum = Integer.MAX_VALUE;
+            return;
+        }
+        stack1.pop();
+        stack2.pop();
+        minNum = stack2.peek();
+    }
+    
+    public int top() {
+        return stack1.peek();
+    }
+    
+    public int min() {
+        return minNum;
+    }
+}
