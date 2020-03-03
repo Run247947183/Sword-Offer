@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+
+public class Solution {
+    public String PrintMinNumber(int [] numbers) {
+        if (numbers.length == 0 || numbers == null) {
+            return "";
+        }
+        // 冒泡排序，将数组的中的元素按照从小到大的顺序排列出来
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = i + 1; j < numbers.length; j++) {
+                String tmp1 = numbers[i] + "" + numbers[j];
+                String tmp2 = numbers[j] + "" + numbers[i];
+                if (tmp1.compareTo(tmp2) > 0) {
+                    swap(numbers, i, j);
+                }
+            }
+        }
+        // 将排序好的数组进行添加到字符串中
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numbers.length; i++) {
+            sb.append(numbers[i]);
+        }
+        return sb.toString();
+    }
+    public void swap(int[] arr, int x, int y) {
+        int tmp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = tmp;
+    }
+}
