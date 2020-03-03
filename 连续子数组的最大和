@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Solution {
+    public int FindGreatestSumOfSubArray(int[] array) {
+        if (array.length == 0) {
+            return 0;
+        }
+        if (array.length == 1) {
+            return array[0];
+        }
+        int count = 0; // 记录当前的连续子序列的和
+        int sum = Integer.MIN_VALUE; // 记录当前最大子序列的和
+        boolean tag = true; // 判断 count 是否在之前的基础上变小了
+        for (int num : array) {
+            if (tag) {
+                count += num;
+                sum = sum > count ? sum : count;
+                tag = count > 0 ? true : false;
+            } else {
+                if (num > count) {
+                    count = num;
+                    sum = sum > count ? sum : count;
+                    tag = true;
+                } else {
+                    continue;
+                }
+            }
+        }
+        return sum;
+    }
+}
