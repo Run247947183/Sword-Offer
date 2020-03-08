@@ -1,0 +1,47 @@
+方法一：利用HashMap
+//num1,num2分别为长度为1的数组。传出参数
+//将num1[0],num2[0]设置为返回结果
+import java.util.*;
+public class Solution {
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : array) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        boolean tag = true;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == 1) {
+                if (tag) {
+                    num1[0] = entry.getKey();
+                    tag = false;
+                } else {
+                    num2[0] = entry.getKey();
+                }
+            }
+        }
+    }
+}
+
+方法二：利用栈
+//num1,num2分别为长度为1的数组。传出参数
+//将num1[0],num2[0]设置为返回结果
+import java.util.*;
+public class Solution {
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        Arrays.sort(array);
+        Stack<Integer> stack = new Stack<>();
+        for (int num : array) {
+            if (stack.isEmpty()) {
+                stack.push(num);
+            } else {
+                if (stack.peek() == num) {
+                    stack.pop();
+                    continue;
+                }
+                stack.push(num);
+            }
+        }
+        num1[0] = stack.pop();
+        num2[0] = stack.pop();
+    }
+}
