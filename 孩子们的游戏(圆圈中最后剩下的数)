@@ -1,0 +1,39 @@
+
+class Node {
+    public int val;
+    public Node next;
+    
+    public Node(int x) {
+        this.val = x;
+    }
+}
+
+public class Solution {
+    public int LastRemaining_Solution(int n, int m) {
+        if (n <= 0 || m <= 0) {
+            return -1;
+        }
+        Node newHead = new Node(0);
+        Node newTail = newHead;
+        // 将每个小朋友的编号串联起来形成链表
+        for (int i = 1; i < n; i++) {
+            newTail.next = new Node(i);
+            newTail = newTail.next;
+        }
+        // 这个链表是带环的链表，头和尾连接
+        newTail.next = newHead;
+        int k = 0;
+        while (newHead.next != newHead) {
+            // 如果下一个结点的编号是要表演的编号
+            // 将下一个结点从链表中去除，并且k置为0，重新开始计算
+            if (++k == m - 1) {
+                newHead.next = newHead.next.next;
+                k = 0;
+            }
+            // 从下一个小朋友开始计算
+            newHead = newHead.next;
+        }
+        // 最后返回最后一位下朋友的编号
+        return newHead.val;
+    }
+}
