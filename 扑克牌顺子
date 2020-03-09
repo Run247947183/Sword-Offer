@@ -1,0 +1,31 @@
+import java.util.*;
+public class Solution {
+    public boolean isContinuous(int [] numbers) {
+        if (numbers.length == 0) {
+            return false;
+        }
+        // 将手里的五张扑克牌按从小到大的顺序排好
+        Arrays.sort(numbers);
+        int index = 0; // index表示大小王的数量
+        for (int i = 0; i < numbers.length - 1; i++) {
+            if (numbers[i] == 0) {
+                index++;
+            } else {
+                if (numbers[i + 1] - numbers[i] == 1) {
+                    continue;
+                } else if (numbers[i + 1] == numbers[i]) {
+                    // 因为已经将五张牌排好顺序，如果出现两张牌相同，那么就不能组成顺子
+                    return false;
+                } else {
+                    if (index + 1 < numbers[i + 1] - numbers[i]) {
+                        // 表示大小王总共的数量小于两张牌的差值
+                        return false;
+                    }
+                    // 当前大小王数量能够补齐两张牌中间的差值
+                    index = index - (numbers[i + 1] - numbers[i]) + 1;
+                }
+            }
+        }
+        return true;
+    }
+}
