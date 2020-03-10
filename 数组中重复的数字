@@ -1,0 +1,41 @@
+方法一：
+public class Solution {
+  
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if (numbers == null || length == 0) {
+            return false;
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = i + 1; j < length; j++) {
+                if (numbers[j] == numbers[i]) {
+                    duplication[0] = numbers[i];
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+
+方法二：
+import java.util.*;
+public class Solution {
+  
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if (numbers == null || length == 0) {
+            return false;
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : numbers) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int num2 : numbers) {
+            if (map.get(num2) > 1) {
+                duplication[0] = num2;
+                return true;
+            }
+        }
+        return false;
+    }
+}
