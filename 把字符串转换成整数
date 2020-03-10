@@ -1,0 +1,30 @@
+public class Solution {
+    public int StrToInt(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        char[] chars = str.toCharArray();
+        boolean tag = false; // 判断第一位元素是否是正负号
+        if (chars[0] == '-') {
+            // 如果是负号，那么就记录下来，方便最后进行转换
+            tag = true;
+        }
+        long sum = 0; // 记录总值
+        for (int i = 0; i < chars.length; i++) {
+            if (i == 0 && (chars[i] == '-' || chars[i] == '+')) {
+                continue;
+            }
+            if (chars[i] < '0' || chars[i] > '9') {
+                return 0;
+            }
+            sum = sum * 10 + (chars[i] - '0');
+        }
+        if (tag && (-sum) < Integer.MIN_VALUE) {
+            return 0;
+        }
+        if (!tag && sum > Integer.MAX_VALUE) {
+            return 0;
+        }
+        return tag ? (int)(-sum) : (int)sum;
+    }
+}
