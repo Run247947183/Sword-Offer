@@ -1,0 +1,41 @@
+import java.util.*;
+
+public class Solution {
+    // queue用来保存第一次进来的字符
+    private Queue<Character> queue = new LinkedList<>();
+    // map 保存当前字符串只出现一次的字符
+    private Map<Character, Integer> map = new HashMap<>();
+    //Insert one char from stringstream
+    public void Insert(char ch)
+    {
+        // ch字符在 map 中不存在，则加入map和queue
+        if (map.getOrDefault(ch, 0) == 0) {
+            map.put(ch, 1);
+            queue.offer(ch);
+        } else {
+            // map中已经存在 ch 字符了，则在 map 中删除 ch 字符
+            map.remove(ch);
+        }
+    }
+  //return the first appearence once char in current stringstream
+    public char FirstAppearingOnce()
+    {
+        while (!queue.isEmpty()) {
+            // 因为 queue 是先进先出的，所有判断 mao 中有没有 queue.peek（）字符
+            if (map.containsKey(queue.peek())) {
+                // 有，而且当前只出现了一次
+                if (map.get(queue.peek()) == 1) {
+                    break;
+                } 
+            } else {
+                // map 中没有queue.peek()字符，则将它抛出 queue
+                queue.poll();
+            }
+        }
+        // 遍历完 queue 后，queue队列为空，则返回 '#'
+        if (queue.isEmpty()) {
+            return '#';
+        }
+        return queue.peek();
+    }
+}
