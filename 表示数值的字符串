@@ -1,0 +1,46 @@
+public class Solution {
+    // 1.正负号只能出现在第一个字符或者（E || e）的后面
+    // 2."."不能出现在(E || e)的后面，但是 "." 后面可以出现(E || e)
+    // 3.出现除了数字、正负号、(E || e)、"." 的字母都为 false
+    public boolean isNumeric(char[] str) {
+        if (str == null || str.length == 0) {
+            return false;
+        }
+        boolean tag = false; // 判断前面是否出现过 "."
+        boolean E = false; // 判断前面是否出现过 "e" 或者 "E"
+        for (int i = 0; i < str.length; i++) {
+            if (i == 0) {
+                if (str[i] == '-' || str[i] == '+') {
+                    continue;
+                }
+                if (str[i] >= '0' && str[i] <= '9') {
+                    continue;
+                }
+                return false;
+            } else {
+                if ((str[i] == 'e' || str[i] == 'E') && i != str.length - 1) {
+                    if (!E) {
+                        E = true;
+                    } else {
+                        return false; // 出现两次 e 或者 E 又或者是已经出现了"."
+                    }
+                } else if (str[i] == '.') {
+                    // 前面出现过(E || e)了，就不能出现 "."
+                    if (!tag && !E) {
+                        tag = true;
+                    } else {
+                        return false;
+                    }
+                } else if (str[i] == '+' || str[i] == '-') {
+                    if (str[i - 1] == 'E' || str[i - 1] == 'e') {
+                        continue;
+                    }
+                    return false;
+                } else if (str[i] < '0' || str[i] > '9') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
