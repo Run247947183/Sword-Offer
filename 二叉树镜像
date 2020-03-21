@@ -1,0 +1,74 @@
+方法一：递归
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    public void Mirror(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        Mirror(root.left);
+        Mirror(root.right);
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+    }
+}
+
+
+
+方法二：非递归
+import java.util.*;
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    public void Mirror(TreeNode root) {
+        // 排除空树的情况
+        if (root == null) {
+            return;
+        }
+        // 排除只有一个节点的情况
+        if (root.left == null && root.right == null) {
+            return;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            // 栈中会存在空节点或者当前节点的左子树和右子树都为空的情况
+            if (cur == null) {
+                continue;
+            }
+            if (cur.left == null && cur.right == null) {
+                continue;
+            }
+            // 交换当前节点的左右子树，注意不是交换值，是交换节点
+            TreeNode tmp = cur.left;
+            cur.left = cur.right;
+            cur.right = tmp;
+            stack.push(cur.left);
+            stack.push(cur.right);
+        }
+    }
+}
