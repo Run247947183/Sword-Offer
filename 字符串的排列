@@ -1,0 +1,42 @@
+// 递归回溯法构建全排列
+import java.util.*;
+public class Solution {
+    HashSet<String> set = new HashSet<>();
+    ArrayList<Character> list = new ArrayList<>();
+    int len;
+    char[] chars;
+    public ArrayList<String> Permutation(String str) {
+        if (str == null || str.length() == 0) {
+            return new ArrayList<String>();
+        }
+        len = str.length();
+        chars = str.toCharArray();
+        for (char c : chars) {
+            list.add(c);
+        }
+        int k = 0; 
+        helper(k, list); // 递归回溯
+        ArrayList<String> res = new ArrayList<>(set);
+        Collections.sort(res); // 按照字典序排列顺序
+        return res;
+    }
+    // 就以 abc 字符串为例子，当每个字符作为 chars 数组的首元素时，一共会进行三大层的递归
+    // 第一层递归： 一共有 三个元素，所以分别会以 a b c 为 chars 数组的首元素进行排列
+    // 第二层递归：和第一层一样，找出剩下字符中的一个作为 chars 的第二个元素插入
+    // 第三层递归：将剩下的最后一个元素作为 chars 数组的第三个元素插入
+    // 这样一个完整的字符串就组成了，加入到 hashSet 中
+    // 以此类推，每个元素都会在不同的位置分别出现，组成当前的字符串
+    private void helper(int k, ArrayList<Character> list) {
+        if (k == len) {
+            set.add(new String(chars));
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                char c = list.get(i);
+                chars[k] = c;
+                ArrayList<Character> list2 = new ArrayList<>(list);
+                list2.remove(i);
+                helper(k + 1, list2); 
+            }
+        }
+    }
+}
