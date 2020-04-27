@@ -1,0 +1,59 @@
+import java.util.*;
+/*
+public class RandomListNode {
+    int label;
+    RandomListNode next = null;
+    RandomListNode random = null;
+
+    RandomListNode(int label) {
+        this.label = label;
+    }
+}
+*/
+public class Solution {
+    public RandomListNode Clone(RandomListNode pHead)
+    {
+        if (pHead == null) {
+            return null;
+        }
+        RandomListNode head = null; // head 为最终返回的头节点
+        RandomListNode tail = null; // tail 作为 head 的尾节点，对新节点进行插入连接
+        RandomListNode p = pHead; 
+        // 如果 map 中存在 next 节点或者 random 节点那么直接进行 tail 尾节点插入连接即可
+        Map<RandomListNode, RandomListNode> map = new HashMap<>();
+        while(p != null){
+            if (head == null){
+                // 刚开始 head 为 null 的情况，进行 head 和 tail 的初始化操作
+                head = new RandomListNode(pHead.label);
+                tail = head;
+                map.put(pHead, head);
+            } else {
+                if (p.next!= null && map.containsKey(p.next)) {
+                    // 存在则直接插入
+                    tail.next = map.get(p.next);
+                } else {
+                    if (p.next!= null) {
+                        // 不存在，那么创建新节点保存 pHead 中的节点值，并且插入 tail
+                        // 接着更新 map 
+                        RandomListNode tmp = new RandomListNode(p.next.label);
+                        map.put(p.next, tmp);
+                        tail.next = tmp;
+                    }
+                }
+                // random 和 next 的操作相同
+                if (p.random != null && map.containsKey(p.random)) {
+                    tail.random = map.get(p.random);
+                } else {
+                    if (p.random != null) {
+                        RandomListNode tmp = new RandomListNode(p.random.label);
+                        map.put(p.random, tmp);
+                        tail.random = tmp;    
+                    }
+                }
+                p = p.next;
+                tail = tail.next;
+            }
+        }
+        return head;
+    }
+}
