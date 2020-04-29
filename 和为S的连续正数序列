@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<ArrayList<Integer> > FindContinuousSequence(int sum) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if (sum < 3) {
+            return res;
+        }
+        for (int i = 1; i < sum; i++) {
+            int tmp = 0;
+            int j = i;
+            while (tmp < sum) {
+                tmp += j;
+                j++;
+            }
+            if (tmp == sum) {
+                ArrayList<Integer> list = new ArrayList<>();
+                for (int x = i; x < j; x++) {
+                    list.add(x);
+                }
+                res.add(list);
+            }
+        }
+        return res;
+    }
+}
