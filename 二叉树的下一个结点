@@ -1,0 +1,44 @@
+import java.util.*;
+/*
+public class TreeLinkNode {
+    int val;
+    TreeLinkNode left = null;
+    TreeLinkNode right = null;
+    TreeLinkNode next = null;
+
+    TreeLinkNode(int val) {
+        this.val = val;
+    }
+}
+*/
+public class Solution {
+    private ArrayList<TreeLinkNode> list = new ArrayList<>();
+    public TreeLinkNode GetNext(TreeLinkNode pNode)
+    {
+        TreeLinkNode cur = pNode;
+        // 先找到 pNode 的根节点
+        while (cur.next != null) {
+            cur = cur.next;
+        }
+        findInorder(cur); // 进行中序遍历，将中序遍历的节点加入 list 中
+        int i = 0;
+        for (; i < list.size(); i++) {
+            if (list.get(i) == pNode) {
+                if (i == list.size() - 1) {
+                    // 说明 pNode 节点在中序遍历的最后一个节点，那么它的下一个节点就为 null 
+                    return null;
+                }
+                return list.get(i + 1);
+            }
+        }
+        return null;
+    }
+    public void findInorder(TreeLinkNode cur) {
+        // 注意：此处需要添加 cur 不为 null 条件，否则会将 null 加入 list 中
+        if (cur != null) {
+            findInorder(cur.left); // 找到最左树
+            list.add(cur); // 添加当前节点
+            findInorder(cur.right); // 找到最右树
+        }
+    }
+}
