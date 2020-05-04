@@ -1,0 +1,34 @@
+import java.util.*;
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    private ArrayList<TreeNode> list = new ArrayList<>();
+    TreeNode KthNode(TreeNode pRoot, int k)
+    {
+        helper(pRoot);
+        if (k > list.size() || k <= 0) {
+            return null;
+        }
+        return list.get(k - 1);
+    }
+    // 通过中序遍历二叉树，将搜索树按照从小到大的顺序加入 list 中
+    public void helper(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        helper(root.left);
+        list.add(root);
+        helper(root.right);
+    }
+}
