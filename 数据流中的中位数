@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Solution {
+    // 建立小堆，用于储存中位数后半部分的内容
+    private PriorityQueue<Integer> minQueue = new PriorityQueue<>();
+    // 建立大堆，用于储存中位数前半部分的内容
+    private PriorityQueue<Integer> maxQueue = new PriorityQueue<>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
+        }
+    });
+    public int count = 0;
+    public void Insert(Integer num) {
+        // 如果此时count为偶数，那么先将 num 加入大堆中
+        // 这样加入 Num 后大堆中重新排序，堆顶就是最大值
+        // 取出大堆中的最大值，并且加入小堆
+        if (count % 2 == 0) {
+            maxQueue.offer(num);
+            int tmp = maxQueue.poll();
+            minQueue.offer(tmp);
+        } else {
+            minQueue.offer(num);
+            int tmp = minQueue.poll();
+            maxQueue.offer(tmp);
+        }
+        count++;
+    }
+
+    public Double GetMedian() {
+        // 注意：此时的 count 是 count++ 后的 count 值
+        // 也就是说如果现在一共有 3 个数，那么此时 ocunt 为 3
+        if (count % 2 == 0) {
+            return new Double(minQueue.peek() +  maxQueue.peek()) / 2;
+        }
+        return new Double(minQueue.peek());
+    }
+}
