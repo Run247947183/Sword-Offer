@@ -1,0 +1,55 @@
+方法一：暴力查找
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> maxInWindows(int [] num, int size)
+    {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (size == 0 || size > num.length) {
+            return list;
+        }
+        int left = 0;
+        int right = size - 1;
+        while (right < num.length) {
+            int tmp = Integer.MIN_VALUE;
+            int i = left;
+            for (; i <= right; i++) {
+                tmp = tmp > num[i] ? tmp : num[i];
+            }
+            list.add(tmp);
+            left++;
+            right++;
+        }
+        return list;
+    }
+}
+
+方法二：双端队列
+import java.util.*;
+// 最左端存的是当前滑动窗口的最大值
+// 要时刻判断最左端的值是不是在滑动窗口内，如果下标不再滑动窗口的范围内，则出队列
+public class Solution {
+    public ArrayList<Integer> maxInWindows(int [] num, int size)
+    {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (size < 1 || size > num.length) {
+            return list;
+        }
+        LinkedList<Integer> tmp = new LinkedList<>();
+        for (int i = 0; i < num.length; i++) {
+            // 表示当前的值 num[i] 大于滑动窗口的最右端值，则将最右端值出队列
+            while (!tmp.isEmpty() && num[tmp.peekLast()] < num[i]) {
+                tmp.pollLast();
+            }
+            tmp.add(i); // 添加当前 i 下标至队列
+            if (tmp.peekFirst() <= i - size) {
+                // 最左端下标超出滑动窗口范围
+                tmp.pollFirst();
+            }
+            if (i >= size - 1) {
+                // 只有达到滑动窗口大小才能往 list 中添加当前滑动窗口的最大值
+                list.add(num[tmp.peekFirst()]);
+            }
+        }
+        return list;
+    }
+}
