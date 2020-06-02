@@ -1,0 +1,11 @@
+public class Solution {
+    // 主要采用递归思想来进行值的加法计算
+    // 但是不能使用 for 循环和 if 语句判断 n 的情况来终止递归
+    // 所用采用短路效应来判断 n 的情况，如果 n > 1 不成立那么也就不会进入循环了
+    public int count = 0;
+    public int Sum_Solution(int n) {
+        boolean x = n > 1 && Sum_Solution(n - 1) > 0;
+        count += n;
+        return count;
+    }
+}
