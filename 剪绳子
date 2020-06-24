@@ -1,0 +1,34 @@
+# Sword-Offer
+剑指offer
+public class Solution {
+    // 动态规划
+    // dp[i] 表示当绳子为 i 时，成段后的最大乘积
+    public int max = 0;
+    public int cutRope(int target) {
+        // 排除特殊情况
+        if (target < 2) {
+            return target;
+        }
+        if (target == 2) {
+            return 1;
+        }
+        if (target == 3) {
+            return 2;
+        }
+        int[] dp = new int[target + 1];
+        // 初始化工作，注意：4 一下已经不再分了，他们各自表示各自的最大值
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 3;
+        int max = 0;
+        for (int i = 4; i <= target; i++) {
+            // 此处循环也可以是 j < i，但是我们发现
+            // 其中一半是重复计算的，可以省略，例如 i = 5，可以分成 （1，4）（2，3）（3，2）（4，1）
+            for (int j = 1; j <= i / 2; j++) {
+                max = Math.max(max, dp[j] * dp[i - j]);
+            }
+            dp[i] = max;
+        }
+        return dp[target];
+    }
+}
