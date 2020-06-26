@@ -1,10 +1,31 @@
 
-
+递归
 public class Solution {
     public int Fibonacci(int n) {
         if(n<=1){
             return n;
         }
         return Fibonacci(n-1) + Fibonacci(n-2);
+    }
+}
+
+方法二：
+public class Solution {
+    public int Fibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        if (n == 2) {
+            return 1;
+        }
+        int one = 0;
+        int two = 1;
+        int three = 1;
+        for (int i = 3; i <= n; i++) {
+            one = (two + three);
+            two = three;
+            three = one;
+        }
+        return one;
     }
 }
