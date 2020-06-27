@@ -1,43 +1,41 @@
 /**
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
-
-    public TreeNode(int val) {
-        this.val = val;
-
-    }
-
-}
-*/
-public class Solution {
-    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
-        if (root1 == null || root2 == null) {
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    // 只要 B 在 A 中出现过该子结构就算 true
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (A == null || B == null) {
             return false;
         }
         boolean tag = false;
-        if (root1.val == root2.val) {
-            tag = isSameTree(root1, root2);
+        if (A.val == B.val) {
+            tag = isSameTree(A, B);
         }
         if (!tag) {
-            tag = HasSubtree(root1.left, root2);
+            tag = isSubStructure(A.left, B);
         }
         if (!tag) {
-            tag = HasSubtree(root1.right, root2);
+            tag = isSubStructure(A.right, B);
         }
         return tag;
     }
-    public boolean isSameTree(TreeNode root1, TreeNode root2) {
-        if (root2 == null) {
+    public boolean isSameTree(TreeNode A, TreeNode B) {
+        if (B == null) {
             return true;
         }
-        if (root1 == null) {
+        // B 不为 Null，A 为 null ，说明 A 中该节点和 B 不同
+        if (A == null) {
             return false;
         }
-        if (root1.val != root2.val) {
+        if (A.val != B.val) {
             return false;
         }
-        return isSameTree(root1.left, root2.left) && isSameTree(root1.right, root2.right);
+        return isSameTree(A.left, B.left) && isSameTree(A.right, B.right);
     }
 }
