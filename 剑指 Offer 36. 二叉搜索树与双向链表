@@ -1,0 +1,52 @@
+# Sword-Offer
+剑指offer
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+    public Node head;// 链表头指针
+    public Node tail;// 链表尾指针
+    public Node treeToDoublyList(Node root) {
+        if (root == null) {
+            return null;
+        }
+        dfs(root);
+        head.left = tail;
+        tail.right = head;
+        return head;
+    }
+    public void dfs(Node root) {
+        if (root == null) {
+            return;
+        }
+        dfs(root.left);
+        if (head == null) {
+            // 头指针指向二叉树最左子树，并且 tail 帮助之后一路连接
+            head = root;
+            tail = head;
+        } else {
+            // 根据二叉树的性质
+            tail.right = root;
+        }
+        root.left = tail;// 因为是双向链表
+        tail = root;
+        dfs(root.right);
+    }
+}
