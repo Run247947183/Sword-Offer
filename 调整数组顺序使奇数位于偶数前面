@@ -20,3 +20,26 @@ public class Solution {
         }
     }
 }
+
+// 双指针
+class Solution {
+    public int[] exchange(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            while (left < right && nums[left] % 2 != 0) {
+                left++;
+            }
+            while (left < right && nums[right] % 2 == 0) {
+                right--;
+            }
+            swap(nums, left, right);
+        }
+        return nums;
+    }
+    public void swap(int[] arr, int x, int y) {
+        int tmp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = tmp;
+    }
+}
