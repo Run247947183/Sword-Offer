@@ -1,4 +1,4 @@
-方法一：
+方法一：hashMap
 import java.util.*;
 public class Solution {
     public int MoreThanHalfNum_Solution(int [] array) {
@@ -24,7 +24,7 @@ public class Solution {
     }
 }
 
-方法二：
+方法二：数组
 public class Solution {
     public int MoreThanHalfNum_Solution(int [] array) {
         if (array.length == 0) {
@@ -42,5 +42,33 @@ public class Solution {
             }
         }
         return 0;
+    }
+}
+
+方法三：排序
+class Solution {
+    public int majorityElement(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        Arrays.sort(nums);
+        int tag = nums.length / 2;
+        int i = 0;
+        while (i < nums.length - 1) {
+            if (nums[i] == nums[i + 1]) {
+                int j = i + 1;
+                while (j < nums.length && nums[j] == nums[i]) {
+                    j++;
+                }
+                if (j - i > tag) {
+                    tag = nums[i];
+                    break;
+                }
+                i = j - 1;
+            } else {
+                i++;
+            }
+        }
+        return tag;
     }
 }
