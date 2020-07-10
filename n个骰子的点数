@@ -1,0 +1,20 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    // 动态规划
+    // 假设 n 为 2 ，则 n 为 1 的情况已知，都为 1/ 6
+    // 那么 n == 2 时，可能情况变为 2 * 5 + 1，每一种可能情况都是建立前一次的基础上
+    public double[] twoSum(int n) {
+        double[] dp = {1/6d, 1/6d, 1/6d, 1/6d, 1/6d, 1/6d};
+        for (int k = 2; k <= n; k++) {
+            double[] tmp = new double[k * 5 + 1];
+            for (int i = 0; i < dp.length; i++) {
+                for (int j = 0; j < 6; j++) {
+                    tmp[i + j] += dp[i] / 6;
+                }
+            }
+            dp = tmp;
+        }
+        return dp;
+    }
+}
