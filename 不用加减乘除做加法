@@ -1,0 +1,13 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    public int add(int a, int b) {
+        while (b != 0) {
+            int tmp1 = a ^ b;
+            int tmp2 = (a & b) << 1;
+            a = tmp1;
+            b = tmp2;
+        }
+        return a;
+    }
+}
