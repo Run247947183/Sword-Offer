@@ -1,37 +1,33 @@
-import java.util.ArrayList;
 /**
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
-
-    public TreeNode(int val) {
-        this.val = val;
-
-    }
-
-}
-*/
-public class Solution {
-    private ArrayList<ArrayList<Integer>>  res = new ArrayList<>();
-    private ArrayList<Integer> tmp = new ArrayList<>();
-    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
-        helper(root, target);
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return res;
+        }
+        List<Integer> tmp = new ArrayList<>();
+        firstOrder(root, sum, 0, tmp);
         return res;
     }
-    public void helper(TreeNode root, int tag) {
+    public void firstOrder(TreeNode root, int sum, int count, List<Integer> list) {
         if (root == null) {
             return;
         }
-        tmp.add(root.val);
-        tag -= root.val;
-        if (tag == 0 && root.left == null && root.right == null) {
-            res.add(new ArrayList<Integer>(tmp));
+        list.add(root.val);
+        count += root.val;
+        if (root.left == null && root.right == null && sum == count) {
+            res.add(new ArrayList<>(list));
         }
-        helper(root.left, tag);
-        helper(root.right, tag);
-        // 关键的一步：需要把当前左右子树递归过程中往 tmp 添加的元素清理掉
-        // 这样才能保证当前 tmp 的正确性
-        tmp.remove(tmp.size() - 1);
+        firstOrder(root.left, sum, count, list);
+        firstOrder(root.right, sum, count, list);
+        list.remove(list.size() - 1);
     }
 }
