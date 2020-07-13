@@ -1,0 +1,30 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    // 递归做法
+    // 根据二叉搜索树后序遍历的特征，二叉树的根节点为数组的最后一个元素
+    // 以根为界限，从数组开头寻找第一个大于根的节点，从该节点往后就是右子树
+    // 从数组起点到该节点就是左子树，然后判断从该节点到最后一个节点中的值是不是都大于最后一个元素，如果出现一个小于最后一个元素的值，则不符合条件返回 false
+    // 符合条件的话，继续在左右子树中通过相同的方法判断
+    public boolean verifyPostorder(int[] postorder) {
+        return helper(postorder, 0, postorder.length - 1);
+    }
+    public boolean helper(int[] postorder, int left, int right) {
+        if (left >= right) {
+            // 只有一个元素，肯定符合条件
+            return true;
+        }
+        int pos = 0;
+        while (postorder[pos] < postorder[right]) {
+            pos++;
+        }
+        int tag = pos;
+        while (pos <= right) {
+            if (postorder[pos] < postorder[right]) {
+                return false;
+            }
+            pos++;
+        }
+        return helper(postorder, left, tag - 1) && helper(postorder, tag, right-1);
+    }
+}
