@@ -40,3 +40,39 @@ public class Solution {
         }
     }
 }
+
+方法二：LeetCode
+class Solution {
+    // 深度递归 + 回溯
+    // 注意次数通过 HashSet 来判断是不是又重复，如果用 list 来判断，则时间太长
+    public List<String> list = new ArrayList<>();
+    public HashSet<String> set = new HashSet<>();
+    public String[] permutation(String s) {
+        dfs(s.toCharArray(), 0);
+        String[] res = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            res[i] = list.get(i);
+        }
+        return res;
+    }
+    public void dfs(char[] chars, int pos) {
+        if (pos == chars.length - 1) {
+            String s = new String(chars);
+            if (!set.contains(s)) {
+                set.add(s);
+                list.add(s);
+            }
+            return;
+        }
+        for (int i = pos; i < chars.length; i++) {
+            swap(chars, pos, i);
+            dfs(chars, pos + 1);
+            swap(chars, pos, i);
+        }
+    }
+    public void swap(char[] chars, int x, int y) {
+        char c = chars[x];
+        chars[x] = chars[y];
+        chars[y] = c;
+    }
+}
