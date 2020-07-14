@@ -1,0 +1,25 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    public int countDigitOne(int n) {
+        int location = 1;
+        int low = 0;
+        int cur = n % 10;
+        int hight = n / 10;
+        int res = 0;
+        while (hight != 0 || cur != 0) {
+            if (cur == 0) {
+                res += hight * location;
+            } else if (cur == 1) {
+                res += hight * location + low + 1;
+            } else {
+                res += (hight + 1) * location;
+            }
+            low += cur * location;
+            cur = hight % 10;
+            hight = hight / 10;
+            location = location * 10;
+        }
+        return res;
+    }
+}
