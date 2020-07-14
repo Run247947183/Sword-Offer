@@ -1,0 +1,38 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    public int count = 0;
+    public int[][] pos = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    public int movingCount(int m, int n, int k) {
+        int[][] books = new int[m][n];
+        int[][] arr = new int[m][n];
+        helper(arr, books, 0, 0, k);
+        return count;
+    }
+    public void helper(int[][] arr, int[][] books, int x, int y, int k) {
+        count++;
+        books[x][y] = -1;
+        for (int i = 0; i < 4; i++) {
+            int newX = x + pos[i][0];
+            int newY = y + pos[i][1];
+            if (newX >= arr.length || newY >= arr[0].length || newX < 0 || newY < 0) {
+                continue;
+            }
+            if (books[newX][newY] == 0 && countNum(newX) + countNum(newY) <= k) {
+                helper(arr, books, newX, newY, k);
+            }
+        }
+    } 
+    // 计算格子下标数之和
+    public int countNum(int i) {
+        int res = 0;
+        while (true) {
+            res += i % 10;
+            if (i / 10 <= 0) {
+                break;
+            }
+            i /= 10;
+        }
+        return res;
+    }
+}
