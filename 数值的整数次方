@@ -1,56 +1,23 @@
-方法一：
-public class Solution {
-    public double Power(double base, int exponent) {
-        if (base == 0.0) {
-            return 0.0;
+class Solution {
+    // 注意：n 会超出 int 的最小值范围，所以转换成 Long 来操作
+    public double myPow(double x, int n) {
+        long tmp = n;
+        if (tmp < 0) {
+            return 1 / helper(x, -tmp);
         }
-        if (exponent == 0) {
+        return helper(x, tmp);
+    }
+    // 二分思想
+    public double helper(double x, long n) {
+        if (x == 1.0 || n == 0) {
             return 1.0;
         }
-        double sum = base;
-        boolean tag = false;
-        if (exponent < 0) {
-            exponent = Math.abs(exponent);
-            tag = true;
+        if (n % 2 == 0) {
+            double res = helper(x, n / 2);
+            return res * res;
+        } else {
+            double res = helper(x, (n - 1) / 2);
+            return res * res * x;
         }
-        for (int i = 0; i < exponent - 1; i++) {
-            sum = sum * base;
-        }
-        if (tag) {
-            sum = 1 / sum;
-        }
-        return sum;
-    }
-}
-
-方法二：库函数
-public class Solution {
-    public double Power(double base, int exponent) {
-        return Math.pow(base, exponent);
-  }
-}
-
-方法三：递归，二分法
-public class Solution {
-    public double Power(double base, int exponent) {
-        boolean tag = false;
-        if (exponent < 0.0) {
-            tag = true;
-            exponent = Math.abs(exponent);
-        }
-        if (tag) {
-            return 1 / Helper(base, exponent);
-        }
-        return Helper(base, exponent);
-      }
-    public double Helper(double base, int exponent) {
-        if (exponent == 0.0) {
-            return 1;
-        }
-        if (exponent == 1.0) {
-            return base;
-        }
-        double sum = Helper(base, (exponent / 2));
-        return exponent % 2 == 0 ? sum * sum : base * sum * sum;
     }
 }
