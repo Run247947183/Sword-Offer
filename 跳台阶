@@ -23,3 +23,45 @@ public class Solution {
         return JumpFloor(target - 1) + JumpFloor(target - 2);
     }
 }
+
+方法三：HashMap 减枝
+import java.util.*;
+public class Solution {
+    private HashMap<Integer, Integer> map = new HashMap<>();
+    public int JumpFloor(int target) {
+        if (target == 1) {
+            return 1;
+        }
+        if (target == 2) {
+            return 2;
+        }
+        int res1 = 0;
+        if (map.containsKey(target - 1)) {
+            res1 = map.get(target - 1);
+        } else {
+            res1 = JumpFloor(target - 1);
+            map.put(target - 1, res1);
+        }
+        int res2 = 0;
+        if (map.containsKey(target - 2)) {
+            res2 = map.get(target - 2);
+        } else {
+            res2 = JumpFloor(target - 2);
+            map.put(target - 2 , res2);
+        }
+        return res1 + res2;
+    }
+}
+
+方法四：动态规划
+public class Solution {
+    public int JumpFloor(int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= target; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[target];
+    }
+}
