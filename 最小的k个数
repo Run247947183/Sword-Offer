@@ -17,29 +17,73 @@ public class Solution {
 
 方法二：可以利用选择、插入、快速等等排序方法，先把数组进行排序，然后进行 k 前个元素的添加返回
 
-以下方法是利用冒泡排序：
-import java.util.*;
-public class Solution {
-    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
-        ArrayList<Integer> list = new ArrayList<>();
-        if (k > input.length || k < 1) {
-            return list;
+class Solution {
+    // 快速排序
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if (arr.length == 0 || k == 0) {
+            return new int[0];
         }
-        for (int bound = 0; bound < input.length; bound++) {
-            for (int cur = input.length - 1; cur > bound; cur--) {
-                if (input[cur - 1] > input[cur]) {
-                    swap(input, cur - 1, cur);
-                }
+        res = new int[k];
+        quickSort(arr, 0, arr.length - 1, k - 1);
+        return res;
+    }
+    public int[] res;
+    // k 表示需要找到的下标位置，返回 0 到 k 的数组
+    public void quickSort(int[] arr, int left, int right, int k) {
+        int pos = partition(arr, left, right);
+        if (pos == k) {
+            // 找到位置，返回其之前的数组
+            res = Arrays.copyOf(arr, pos + 1);
+            return;
+        }
+        if (pos > k) {
+            quickSort(arr, left, pos - 1, k);
+        } else {
+            quickSort(arr, pos + 1, right, k);
+        }
+    } 
+    public int partition(int[] arr, int left, int right) {
+        int baseIndex = right;
+        int baseValue = arr[baseIndex];
+        while (left < right) {
+            while (left < right && arr[left] <= baseValue) {
+                left++;
             }
+            while (left < right && arr[right] >= baseValue) {
+                right--;
+            }
+            swap(arr, left, right);
         }
-        for (int i = 0; i < k; i++) {
-            list.add(input[i]);
-        }
-        return list;
+        swap(arr, left, baseIndex);
+        return left;
     }
     public void swap(int[] arr, int x, int y) {
         int tmp = arr[x];
         arr[x] = arr[y];
         arr[y] = tmp;
+    }
+}
+
+// 优先队列：堆
+class Solution {
+    // 利用 Java 中自带的优先队列（堆），建立最大堆
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if (arr.length == 0 || k == 0) {
+            return new int[0];
+        }
+        PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        for (int num : arr) {
+            if (queue.size() < k) {
+                queue.offer(num);
+            } else if (queue.peek() > num) {
+                queue.poll();
+                queue.offer(num);
+            }
+        }
+        int[] res = new int[queue.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = queue.poll();
+        }
+        return res;
     }
 }
