@@ -1,3 +1,27 @@
+最佳方法：摩尔投票法
+class Solution {
+    // 摩尔投票法
+    // 如果记众数的票数为 +1，非众数的票数为 -1，那么当遍历一次数组后，票数一定大于 0
+    // 假设数组长度为 n ，众数为 x，那么在前 a 个元素中票数为 0，那么在 a 到 n 这部分元素中，众数的票数一定大于 0
+    public int majorityElement(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int vote = 0;
+        int resNum = 0;
+        for (int num : nums) {
+            if (vote == 0) {
+                // 如果票数为 0 ，则假设当前 num 为众数
+                resNum = num;
+            }
+            // 是众数就加一，否则减一
+            vote += num == resNum ? 1 : -1; 
+        }
+        return resNum;
+    }
+}
+
+
 方法一：hashMap
 import java.util.*;
 public class Solution {
