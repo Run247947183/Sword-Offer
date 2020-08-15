@@ -1,0 +1,58 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    // 动态规划
+    // 状态：dp[i][j] 表示 s 的前 i 个字符串和 p 的前 j 个字符串能不能匹配
+    // 转移方程：每次判断 false 或者 true 时，需要分为以下情况
+    // （1）s.charAt(i) == p.charAt(j) ，那么就只需要看i-1和j-1是否相同
+    // （2）p.charAt(j)=='.'，那么也是只需要看i-1和j-1是否相同
+    // （3）p.charAt(j)=='*'，就需要分成两种情况，假设p.charAt(j - 1) = c
+    //  情况一：s.charAt(i - 1)不等于c，则看i-1和j-2是否相同，因为"c*"，可以为0次的 c
+    //  情况二：p.charAt(j - 1) == '.'，也就是".*"，或者 s.charAt(i - 1) == c
+    //  则需要看i - 1 和 j 是不是相同 
+    public boolean isMatch(String s, String p) {
+        if (s == null && p == null) {
+            return true;
+        }
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+        dp[0][0] = true;
+        // s 为 null，如果 p 字符串类似于 a*b*c* 这种形式，那么也是可以成功匹配
+        // 因为 * 可以让前一个字符出现 0 次
+        for (int i = 2; i <= p.length(); i += 2) {
+            if (p.charAt(i - 1) != '*') {
+                break;
+            }
+            dp[0][i] = true;
+        }
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 1; j <= p.length(); j++) {
+                // 前两种的情况
+                if ((s.charAt(i - 1) == p.charAt(j - 1))
+                || (p.charAt(j - 1) == '.')) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    if (p.charAt(j - 1) == '*') {
+                        // 第三种情况中的两种情形
+                        // 情形一：利用 * 去忽略 p 前一个字符
+                        if (j >= 2) {
+                            // j-2就是将p字符串的 c* 这两个字符串忽略，然后去比较相同
+                            dp[i][j] = dp[i][j - 2];
+                        }
+                        // 注意：只要dp[i][j]为true，则返回
+                        if (dp[i][j]) {
+                            continue;
+                        }
+                        // 情形二：如果i-1和j-1字符相同或者j-1=='.'，就表明可以匹配上
+                        // 继续看 i 的前 i - 1 的字符串能不能和 p 匹配上
+                        // 因为 c* 这种可以匹配多个 c ，所以要检查 i - 1 前面的字符串
+                        if (j >= 2 && (s.charAt(i - 1) == p.charAt(j - 2) 
+                        || (p.charAt(j - 2) == '.'))) {
+                            dp[i][j] = dp[i - 1][j];
+                        }
+                    }
+                }
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
+}
