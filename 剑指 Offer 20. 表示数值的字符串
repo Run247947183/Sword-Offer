@@ -1,0 +1,42 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    // 一共可以出现 数字、e、E、.(点)、+-(正负号)
+    //（1）e、E后面不能再出现 e或者E或者.
+    //（2）.后面不能出现 . 或者 e 或者 E
+    //（3）正负号只能出现在第一个字符或者e、E的后一个字符
+    //（4）出现其他字符则视为 false
+    // 注意：需要先 trim ，如果出现 “1 ” 这样的也视为 true
+    public boolean isNumber(String s) {
+        if (s == null || s.length() == 0) {
+            return false;
+        }
+        boolean isDian = false;
+        boolean isE_e = false;
+        boolean isNum = false;
+        char[] chars = s.trim().toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= '0' && chars[i] <= '9') {
+                isNum = true;
+            } else if (chars[i] == '.') {
+                if (isDian || isE_e) {
+                    return false;
+                }
+                isDian = true;
+            } else if (chars[i] == 'e' || chars[i] == 'E') {
+                if (!isNum || isE_e) {
+                    return false;
+                }
+                isNum = false;
+                isE_e = true;
+            } else if (chars[i] == '-' || chars[i] == '+') {
+                if (i != 0 && chars[i - 1] != 'e' && chars[i - 1] != 'E') {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return isNum;
+    }
+}
