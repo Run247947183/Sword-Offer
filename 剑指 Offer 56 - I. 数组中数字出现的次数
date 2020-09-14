@@ -1,0 +1,38 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    public int[] singleNumbers(int[] nums) {
+        if (nums.length < 2) {
+            return new int[0];
+        }
+        // res 为两个只出现 1 次的数字的异或结果
+        // res 二进制中为 1 的位置，表示这两个数字二进制不同的地方
+        int res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            res ^= nums[i];
+        }
+        int size = 32;
+        int tag = 1;
+        int pos = 1;
+        while (size >= 0) {
+            // 找到 res 32位二进制中第一个为 1 的二进制位置
+            // 以此来划分即可
+            if (((tag << pos) & res) != 0) {
+                tag <<= pos;
+                break;
+            }
+            size--;
+            pos++;
+        }
+        int[] arr = new int[2];
+        for (int num : nums) {
+            // 以 tag 为区分，将 nums 中的元素进行划分
+            if ((tag & num) != 0) {
+                arr[0] ^= num;
+            } else {
+                arr[1] ^= num;
+            }
+        }
+        return arr;
+    }
+}
