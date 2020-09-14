@@ -1,0 +1,24 @@
+# Sword-Offer
+剑指offer
+class Solution {
+    public int nthUglyNumber(int n) {
+        // 最小堆
+        PriorityQueue<Long> queue = new PriorityQueue<>();
+        queue.offer(1L);
+        int count = 0; // 记录已经经历的丑数数量
+        int[] pos = {2, 3, 5};
+        while (!queue.isEmpty()) {
+            long cur = queue.poll();
+            if (++count >= n) {
+                return (int)cur;
+            }
+            // 丑数都是 2 3 5 的倍数
+            for (int num : pos) {
+                if (!queue.contains(num * cur)) {
+                    queue.offer(num * cur);
+                }
+            }
+        }
+        return -1;
+    }
+}
