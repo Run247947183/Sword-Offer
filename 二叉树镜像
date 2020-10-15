@@ -1,5 +1,4 @@
 方法一：递归
-/**
 public class TreeNode {
     int val = 0;
     TreeNode left = null;
@@ -11,7 +10,7 @@ public class TreeNode {
     }
 
 }
-*/
+
 public class Solution {
     public void Mirror(TreeNode root) {
         if (root == null) {
